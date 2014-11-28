@@ -1,5 +1,4 @@
 from django.shortcuts import render
-
 from forms import DocumentForm
 from models import Document
 from django.http import HttpResponseRedirect
@@ -7,7 +6,6 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password,check_password
-import logging
 
 def list(request):
     # Handle file upload
@@ -16,8 +14,7 @@ def list(request):
        if form.is_valid():
           newfile = Document(name=request.POST['name'],file=request.FILES['docfile'])
           newfile.save()
-          extract_file() 
-                      
+          extract_file(request.FILES['docfile']) 
           return HttpResponseRedirect(reverse('buglocator.views.list'))
        return HttpResponse("Please try again")
    
@@ -27,9 +24,13 @@ def list(request):
        # Render list page with the documents and the form
        return render(request,'buglocator/list.html',{'form':form,'documents':documents}  )
 
-def extract_file():
-    logging.debug("File extract")
+def extract_file(file):
     
+    list = open(file,"r")
+    lines = list.readlines()
+    # print each line in the file except the \n character
+    for line in lines: 
+        print(line[:-2])  
 
 def registration(request):
     if request.method=='POST':
