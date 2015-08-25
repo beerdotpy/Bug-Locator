@@ -1,7 +1,6 @@
 from __future__ import print_function
 import os
 
-#TEsting again
 #for root,dirs,files in os.walk("/home/sarthakmeh/Desktop/Project"):
     for file in files:
         #Get all the files in root directory ending with .py.
